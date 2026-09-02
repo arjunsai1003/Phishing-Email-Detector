@@ -2,8 +2,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 print("========================================")
@@ -67,6 +69,23 @@ print("Accuracy:", round(accuracy * 100, 2), "%")
 
 print("\nClassification Report:")
 print(classification_report(y_test, predictions))
+# Confusion Matrix
+cm = confusion_matrix(y_test, predictions)
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(
+    cm,
+    annot=True,
+    fmt="d",
+    cmap="Blues",
+    xticklabels=["Safe", "Phishing"],
+    yticklabels=["Safe", "Phishing"]
+)
+
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Phishing Email Detection - Confusion Matrix")
+plt.show()
 
 
 # Save model and vectorizer
